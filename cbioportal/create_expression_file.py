@@ -4,7 +4,7 @@
 
 import polars as pl
 import numpy as np
-from utils import get_patient_identifiers, combine_dataframes_horizontal
+from utils import get_patient_or_sample_identifiers, combine_dataframes_horizontal,read_gene_json
 
 def create_expression_matrix(column_list,min_value,max_value,number_of_entries):
     names = column_list["PATIENT_ID"].to_list()
@@ -15,17 +15,10 @@ def create_expression_matrix(column_list,min_value,max_value,number_of_entries):
     df = pl.DataFrame(data)
     return df
 
-def read_gene_json(input_json):
-    df = pl.read_json(input_json)
-    return df.select(["entrezGeneId","hugoGeneSymbol"])
-
-
-
-
 if __name__ == "__main__":
-    gene_identifiers = read_gene_json('gene_identifiers.json')
+    gene_identifiers = read_gene_json('gene_identifiers.json',"entrezGeneId","hugoGeneSymbol")
     gene_identifiers_subset=gene_identifiers[0:1500,:]
-    patient_identifiers = get_patient_identifiers('data_clinical_patient.txt','\t')
+    patient_identifiers = get_patient_or_sample_identifiers('data_clinical_patient.txt','\t','PATIENT_ID')
     number_of_genes = gene_identifiers_subset.shape[0]
     print(number_of_genes)
     gene_expression_median = create_expression_matrix(patient_identifiers,2,15,number_of_genes)
