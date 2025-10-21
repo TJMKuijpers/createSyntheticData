@@ -2,8 +2,7 @@ import polars as pl
 import numpy as np
 import math
 import polars.selectors as cs
-
-from formulaic.utils.stateful_transforms import sanitize_variable_name
+import random
 
 from utils import get_patient_or_sample_identifiers, combine_dataframes_horizontal,read_gene_json
 
@@ -32,18 +31,34 @@ def create_log2_matrix(column_list,number_of_entries):
     df = pl.DataFrame(data)
     return df
 
-def create_cna_discrete(genes,identifiers,number_of_entries):
-    values = np.random.choice([-2,-1,0,1,2], size=300000)
-    dataframes=[genes]*300
-    gene_for_samples= pl.concat(dataframes)
-    df=pl.DataFrame({'HUGO_SYMBOL':gene_for_samples['hugoGeneSymbol'],'Entrez_Gene_Id':gene_for_samples['entrezGeneId'],'Sample_Id':identifiers,'Value':values})
+def create_cna_discrete(genes, identifiers, number_of_entries):
+    # For each sample, pick a random number of genes (e.g., 1-5)
+    hugo_symbols = []
+    entrez_ids = []
+    sample_ids = []
+    values = []
+    gene_list = list(zip(genes['hugoGeneSymbol'].to_list(), genes['entrezGeneId'].to_list()))
+    for sample in identifiers['SAMPLE_ID'].to_list():
+        n_genes = random.randint(1, min(5, len(gene_list)))
+        selected_genes = random.sample(gene_list, n_genes)
+        for hugo, entrez in selected_genes:
+            hugo_symbols.append(hugo)
+            entrez_ids.append(entrez)
+            sample_ids.append(sample)
+            values.append(random.choice([-2, -1, 0, 1, 2]))
+    df = pl.DataFrame({
+        'HUGO_SYMBOL': hugo_symbols,
+        'Entrez_Gene_Id': entrez_ids,
+        'Sample_Id': sample_ids,
+        'Value': values
+    })
     return df
 
 def create_cna_hg19(df,identifiers):
-    df.drop('ID')
+    df = df.drop('ID')
     dataframes = [df]*2
     cna_for_samples = pl.concat(dataframes)
-    identifiers_subset=identifiers[0:234462]
+    identifiers_subset=identifiers[0:len(cna_for_samples)//1]
     df = pl.DataFrame({'ID':identifiers_subset,'chrom':cna_for_samples['chrom'],'loc.start':cna_for_samples['chrom'],'loc.end':cna_for_samples['loc.end'],'num.mark':cna_for_samples['num.mark'],'seg.mean':cna_for_samples['seg.mean']})
     return df
 
@@ -55,13 +70,13 @@ if __name__ == "__main__":
     number_of_genes = gene_identifiers_subset.shape[0]
     cna_df = create_expression_matrix(sample_identifiers, number_of_genes)
     gene_cna_df = combine_dataframes_horizontal(pl.DataFrame(gene_identifiers_subset['hugoGeneSymbol']), cna_df)
-    #gene_cna_df.write_csv('data_cna.txt', separator='\t')
-    #cna_log2_values = create_log2_matrix(sample_identifiers, number_of_genes)
-    #cna_log2_values.with_columns((~cs.string()).replace([float("inf"), -float("inf")], 'NaN'))
-    #gene_cna_log2_df = combine_dataframes_horizontal(pl.DataFrame(gene_identifiers_subset['hugoGeneSymbol']), cna_log2_values)
-    #gene_cna_df.write_csv('data_cna_log2.txt', separator='\t')
-    #cna_discrete=create_cna_discrete(gene_identifiers_subset,sample_identifiers,number_of_genes)
-    #cna_discrete.write_csv('data_cna_discrete.txt', separator='\t')
-    cna_hg19_data = pl.read_csv('/home/tkuijpers/git/sourceCodecBioPortal/datahub/public/coad_silu_2022/data_cna_hg19.seg',separator='\t',infer_schema_length=10000)
+    gene_cna_df.write_csv('data_cna.txt', separator='\t')
+    cna_log2_values = create_log2_matrix(sample_identifiers, number_of_genes)
+    cna_log2_values.with_columns((~cs.string()).replace([float("inf"), -float("inf")], 'NaN'))
+    gene_cna_log2_df = combine_dataframes_horizontal(pl.DataFrame(gene_identifiers_subset['hugoGeneSymbol']), cna_log2_values)
+    gene_cna_df.write_csv('data_cna_log2.txt', separator='\t')
+    cna_discrete=create_cna_discrete(gene_identifiers_subset,sample_identifiers,number_of_genes)
+    cna_discrete.write_csv('data_cna_discrete.txt', separator='\t')
+    cna_hg19_data = pl.read_csv('~/createSyntheticData/cbioportal/example_data/data_cna_hg19_coad_silu_2022.seg',separator='\t',infer_schema_length=10000)
     cna_hg19 = create_cna_hg19(cna_hg19_data,sample_identifiers)
     cna_hg19.write_csv('data_cna_hg19.seg', separator='\t')
