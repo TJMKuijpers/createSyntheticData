@@ -20,8 +20,7 @@ if __name__ == "__main__":
     gene_identifiers_subset=gene_identifiers[0:1500,:]
     patient_identifiers = get_patient_or_sample_identifiers('data_clinical_sample.txt','\t','SAMPLE_ID')
     number_of_genes = gene_identifiers_subset.shape[0]
-    print(number_of_genes)
     gene_expression_median = create_expression_matrix(patient_identifiers,2,15,number_of_genes)
     gene_expression_df = combine_dataframes_horizontal(gene_identifiers_subset,gene_expression_median)
-    print(gene_expression_df.head())
     gene_expression_df.write_csv('data_gene_expression.txt',separator='\t')
+    gene_expression_df.write_csv('data_methylation.txt',separator='\t') # follows the same format as gene expression continuous

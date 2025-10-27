@@ -40,7 +40,6 @@ if __name__ == "__main__":
     dfs_months=create_numerical_list_patients(100000,15,80,2)
     age=create_numerical_list_patients(100000,10,100,0)
     sex=create_categorical_list_patients(100000,['Male','Female'])
-    cancer_type=create_categorical_list_patients(100000,['Breast Cancer','Prostate Cancer','Pancreatic Cancer','Non-Small Cell Lung Cancer'])
-    data_frame = pl.DataFrame({'PATIENT_ID':patient_id,'AGE':age,'OS_STATUS':os_status,'OS_MONTHS':os_months,'DFS_STATUS':dfs_status,'DFS_MONTHS':dfs_months,'CANCER_TYPE':cancer_type})
+    data_frame = pl.DataFrame({'PATIENT_ID':patient_id,'AGE':age,'OS_STATUS':os_status,'OS_MONTHS':os_months,'DFS_STATUS':dfs_status,'DFS_MONTHS':dfs_months})
     data_frame.with_columns((~cs.string()).cast(pl.String))
     data_frame.write_csv('data_clinical_patient.txt',separator='\t')
