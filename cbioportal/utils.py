@@ -1,12 +1,16 @@
 import polars as pl
+from polars import DataFrame
+import numpy as np
 import random
 
 def get_patient_or_sample_identifiers(input_file,sep,select_column):
     df = pl.read_csv(input_file,separator=sep).select(select_column)
     return df
 
-def combine_dataframes_horizontal(df1,df2):
-    new_df  = pl.concat([df1, df2],how='horizontal')
+def combine_dataframes_horizontal(*dataframes: DataFrame) -> DataFrame:
+    if not dataframes:
+        raise ValueError("At least one DataFrame must be provided.")
+    new_df = pl.concat(dataframes, how='horizontal')
     return new_df
 
 def create_categorical_values(number_of_replicates,option_list,column_name):
@@ -45,4 +49,26 @@ def add_custom_namespace_cols(df):
         pl.Series("CUSTOM.name", custom_name_col),
         pl.Series("CUSTOM.type", custom_type_col)
     ])
+    return df
+
+def create_expression_matrix(column_list,column_name,min_value,max_value,number_of_entries,profile):
+    names = column_list[column_name].to_list()
+    data = {}
+    if profile.upper() == 'EXPR':
+        for name in names:
+            data[name] = np.random.randint(
+                low=min_value,
+                high=max_value,
+                size=number_of_entries
+            )
+    elif profile.upper() == 'RPPA' or profile.upper() == 'PVALUE'  or profile.upper() == 'SCORE':
+        for name in names:
+            data[name] = np.random.uniform(
+                low=min_value,
+                high=max_value,
+                size=number_of_entries
+            )
+    else:
+        raise ValueError(F"Profile '{profile}' is not implemented yet, pick EXPR or RPPA, or for GSVA pick PVALUE or SCORE")
+    df = pl.DataFrame(data)
     return df
