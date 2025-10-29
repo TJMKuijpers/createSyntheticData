@@ -58,3 +58,5 @@ if __name__ == "__main__":
     cna_hg19_data = pl.read_csv('~/createSyntheticData/cbioportal/example_data/data_cna_hg19_coad_silu_2022.seg',separator='\t',infer_schema_length=10000)
     cna_hg19 = create_cna_hg19(cna_hg19_data,sample_identifiers)
     cna_hg19.write_csv('data_cna_hg19.seg', separator='\t')
+
+

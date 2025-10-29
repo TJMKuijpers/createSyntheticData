@@ -72,3 +72,14 @@ def create_expression_matrix(column_list,column_name,min_value,max_value,number_
         raise ValueError(F"Profile '{profile}' is not implemented yet, pick EXPR or RPPA, or for GSVA pick PVALUE or SCORE")
     df = pl.DataFrame(data)
     return df
+
+def create_meta_data(metadata_dict,filename):
+    file_content = []
+    for key, value in metadata_dict.items():
+        file_content.append(f"{key}: {value}")
+    file_content_string =  "\n".join(file_content)
+    try:
+        with open(filename, 'w') as f:
+            f.write(file_content_string)
+    except Exception as e:
+        print("Could not write metadata")
