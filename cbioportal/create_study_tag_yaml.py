@@ -38,4 +38,4 @@ if __name__ == '__main__':
             {'name': 'jane', 'email': 'jane@@xyz.com'}
         ],
     }
-    create_yaml_file_from_dict(dict_info,'study_tags.yml')
+    create_yaml_file_from_dict(dict_info,'/synthetic_data/study_tags.yml')

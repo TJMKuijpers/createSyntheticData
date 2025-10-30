@@ -7,13 +7,12 @@ from utils import create_meta_data
 meta_cna_discrete = {
     "cancer_study_identifier": f"{cancer_study_id}",
      "genetic_alteration_type": "COPY_NUMBER_ALTERATION",
-     "datatype": "DISCRETE_LONG",
+     "datatype": "DISCRETE",
      "stable_id": "gistic",
      "show_profile_in_analysis_tab": "true",
      "profile_description": "Putative copy-number from GISTIC 2.0. Values: -2 = homozygous deletion; -1 = hemizygous deletion; 0 = neutral / no change; 1 = gain; 2 = high level amplification.",
      "profile_name": "Putative copy-number alterations from GISTIC",
      "data_filename": "data_cna_discrete.txt",
-     "namespaces": "MyNamespace,MyNamespace2"
 }
 meta_cna_log2 = {
 "cancer_study_identifier": f"{cancer_study_id}",
@@ -64,14 +63,14 @@ meta_clinical_patients = {
 "cancer_study_identifier": f"{cancer_study_id}",
 "genetic_alteration_type": "CLINICAL",
 "datatype": "PATIENT_ATTRIBUTES",
-"data_filename": "data_clinical_patients.txt"
+"data_filename": "data_clinical_patient.txt"
 }
 
 meta_clinical_samples = {
 "cancer_study_identifier": f"{cancer_study_id}",
 "genetic_alteration_type": "CLINICAL",
 "datatype": "SAMPLE_ATTRIBUTES",
-"data_filename": "data_clinical_samples.txt"
+"data_filename": "data_clinical_sample.txt"
 }
 
 meta_structural_variants = {
@@ -83,7 +82,6 @@ meta_structural_variants = {
 "profile_name": "Targeted Fusion Assay data (Fake data)",
 "profile_description": "Targeted Fusion Assay data created by The Hyve",
 "show_profile_in_analysis_tab": "true",
-"namespaces": "StructVarNs,StructVarNs2"
 }
 
 meta_methylation_hm27 = {
@@ -128,7 +126,7 @@ meta_expression_continuous = {
 "cancer_study_identifier": f"{cancer_study_id}",
 "genetic_alteration_type": "MRNA_EXPRESSION",
 "datatype": "CONTINUOUS",
-"stable_id": "rna_seq_v2_mrna",
+"stable_id": "rna_seq_mrna",
 "profile_description": "Fake RNA data",
 "show_profile_in_analysis_tab": "false",
 "profile_name": "mRNA expression",
@@ -152,9 +150,10 @@ meta_mutational_signatures_sbs_counts ={
 "generic_assay_type": "MUTATIONAL_SIGNATURE",
 "datatype": "LIMIT-VALUE",
 "stable_id": "mutational_signature_sbs",
-"profile_name": "generic assay test profile",
+"profile_name": "generic assay test profile SBS",
 "profile_description": "test profile for generic assay",
 "data_filename": "data_mutational_signatures_counts_SBS.txt",
+"generic_entity_meta_properties": "NAME",
 "show_profile_in_analysis_tab": "true"
 }
 
@@ -164,9 +163,10 @@ meta_mutational_signatures_dbs_counts ={
 "generic_assay_type": "MUTATIONAL_SIGNATURE",
 "datatype": "LIMIT-VALUE",
 "stable_id": "mutational_signature_dbs",
-"profile_name": "generic assay test profile",
-"profile_description": "test profile for generic assay",
+"profile_name": "generic assay test profile DBS",
+"profile_description": "test profile for generic assay DBS",
 "data_filename": "data_mutational_signatures_counts_DBS.txt",
+"generic_entity_meta_properties": "NAME",
 "show_profile_in_analysis_tab": "true"
 }
 
@@ -176,9 +176,10 @@ meta_mutational_signatures_id_counts ={
 "generic_assay_type": "MUTATIONAL_SIGNATURE",
 "datatype": "LIMIT-VALUE",
 "stable_id": "mutational_signature_id",
-"profile_name": "generic assay test profile",
-"profile_description": "test profile for generic assay",
+"profile_name": "generic assay test profile ID",
+"profile_description": "test profile for generic assay ID",
 "data_filename": "data_mutational_signatures_counts_ID.txt",
+"generic_entity_meta_properties": "NAME",
 "show_profile_in_analysis_tab": "true"
 }
 
@@ -228,21 +229,24 @@ meta_mutational_signatures_id_contribution = {
 
 
 if __name__ == "__main__":
-   create_meta_data(meta_cna_discrete, 'syntethic_data/meta_cna_discrete.txt')
-   create_meta_data(meta_cna_log2, 'syntethic_data/meta_cna_log2.txt')
-   create_meta_data(meta_cna_hg19,'syntethic_data/meta_cna_hg19_seg.txt')
-   create_meta_data(meta_gsva_scores,'syntethic_data/meta_gsva_scores.txt')
-   create_meta_data(meta_gsva_pvalues,'syntethic_data/meta_gsva_pvalues.txt')
-   create_meta_data(meta_clinical_patients,'syntethic_data/meta_clinical_patients.txt')
-   create_meta_data(meta_clinical_samples,'syntethic_data/meta_clinical_samples.txt')
-   create_meta_data(meta_structural_variants,'syntethic_data/meta_structural_variants.txt')
-   create_meta_data(meta_methylation_hm27,'syntethic_data/meta_methylation_hm27.txt')
-   create_meta_data(meta_study,'syntethic_data/meta_study.txt')
-   create_meta_data(meta_treatment_ic50,'syntethic_data/meta_reatment_ic50.txt')
-   create_meta_data(meta_expression_continuous,'syntethic_data/meta_expression_continuous.txt')
-   create_meta_data(meta_mutational_signatures_sbs_counts,'syntethic_data/meta_mutational_signatures_counts_SBS.txt')
-   create_meta_data(meta_mutational_signatures_dbs_counts, 'syntethic_data/meta_mutational_signatures_counts_DBS.txt')
-   create_meta_data(meta_mutational_signatures_id_counts, 'syntethic_data/meta_mutational_signatures_counts_ID.txt')
-   create_meta_data(meta_mutational_signatures_sbs_contribution, 'syntethic_data/meta_mutational_signatures_contribution_SBS.txt')
-   create_meta_data(meta_mutational_signatures_dbs_contribution, 'syntethic_data/meta_mutational_signatures_contribution_DBS.txt')
-   create_meta_data(meta_mutational_signatures_id_contribution, 'syntethic_data/meta_mutational_signatures_contribution_ID.txt')
+   create_meta_data(meta_cna_discrete, 'synthetic_data/meta_cna_discrete.txt')
+   create_meta_data(meta_cna_log2, 'synthetic_data/meta_cna_log2.txt')
+   create_meta_data(meta_cna_hg19, 'synthetic_data/meta_cna_hg19_seg.txt')
+   create_meta_data(meta_gsva_scores, 'synthetic_data/meta_gsva_scores.txt')
+   create_meta_data(meta_gsva_pvalues, 'synthetic_data/meta_gsva_pvalues.txt')
+   create_meta_data(meta_clinical_patients, 'synthetic_data/meta_clinical_patients.txt')
+   create_meta_data(meta_clinical_samples, 'synthetic_data/meta_clinical_samples.txt')
+   create_meta_data(meta_structural_variants, 'synthetic_data/meta_structural_variants.txt')
+   create_meta_data(meta_methylation_hm27, 'synthetic_data/meta_methylation_hm27.txt')
+   create_meta_data(meta_study, 'synthetic_data/meta_study.txt')
+   create_meta_data(meta_treatment_ic50, 'synthetic_data/meta_treatment_ic50.txt')
+   create_meta_data(meta_expression_continuous, 'synthetic_data/meta_expression_continuous.txt')
+   create_meta_data(meta_mutational_signatures_sbs_counts, 'synthetic_data/meta_mutational_signatures_counts_SBS.txt')
+   create_meta_data(meta_mutational_signatures_dbs_counts, 'synthetic_data/meta_mutational_signatures_counts_DBS.txt')
+   create_meta_data(meta_mutational_signatures_id_counts, 'synthetic_data/meta_mutational_signatures_counts_ID.txt')
+   create_meta_data(meta_mutational_signatures_sbs_contribution,
+                    'synthetic_data/meta_mutational_signatures_contribution_SBS.txt')
+   create_meta_data(meta_mutational_signatures_dbs_contribution,
+                    'synthetic_data/meta_mutational_signatures_contribution_DBS.txt')
+   create_meta_data(meta_mutational_signatures_id_contribution,
+                    'synthetic_data/meta_mutational_signatures_contribution_ID.txt')

@@ -3,8 +3,8 @@ from polars import DataFrame
 import numpy as np
 import random
 
-def get_patient_or_sample_identifiers(input_file,sep,select_column):
-    df = pl.read_csv(input_file,separator=sep).select(select_column)
+def get_patient_or_sample_identifiers(input_file,sep,select_column,skip_lines):
+    df = pl.read_csv(input_file,separator=sep,skip_lines=skip_lines).select(select_column)
     return df
 
 def combine_dataframes_horizontal(*dataframes: DataFrame) -> DataFrame:

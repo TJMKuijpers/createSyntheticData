@@ -11,7 +11,7 @@ if __name__ == "__main__":
     reference_dbs_counts= pl.read_csv(os.path.join(os.getcwd(),'example_data/data_mutational_signatures_counts_DBS.txt'),separator='\t')
     reference_dbs_contribution = pl.read_csv(os.path.join(os.getcwd(),'example_data/data_mutational_signatures_contribution_DBS.txt'),separator='\t')
 
-    sample_idenifiers = get_patient_or_sample_identifiers(os.path.join(os.getcwd(), 'syntethic_data/data_clinical_sample.txt'),'\t','SAMPLE_ID')
+    sample_idenifiers = get_patient_or_sample_identifiers(os.path.join(os.getcwd(), 'synthetic_data/data_clinical_sample.txt'),'\t','SAMPLE_ID',4)
 
     sbs_contributions=create_expression_matrix(sample_idenifiers,'SAMPLE_ID',0,1,reference_sbs_contribution.shape[0],"CONTRIBUTION")
     sbs_counts=create_expression_matrix(sample_idenifiers,'SAMPLE_ID',0,40,reference_sbs_counts.shape[0],"COUNT")
@@ -22,21 +22,21 @@ if __name__ == "__main__":
                                                "CONTRIBUTION")
     id_counts = create_expression_matrix(sample_idenifiers, 'SAMPLE_ID', 0, 40, reference_id_counts.shape[0], "COUNT")
 
-    sbs_contribution_data=combine_dataframes_horizontal(reference_sbs_contribution.select(["ENTITY_STABLE_ID","NAME"]),sbs_contributions)
+    sbs_contribution_data=combine_dataframes_horizontal(reference_sbs_contribution.select(["ENTITY_STABLE_ID","NAME","DESCRIPTION","URL"]),sbs_contributions)
     sbs_counts_data = combine_dataframes_horizontal(
         reference_sbs_counts.select(["ENTITY_STABLE_ID", "NAME"]), sbs_counts)
 
-    dbs_contribution_data=combine_dataframes_horizontal(reference_sbs_contribution.select(["ENTITY_STABLE_ID","NAME"]),dbs_contributions)
+    dbs_contribution_data=combine_dataframes_horizontal(reference_sbs_contribution.select(["ENTITY_STABLE_ID","NAME","DESCRIPTION","URL"]),dbs_contributions)
     dbs_counts_data=combine_dataframes_horizontal(
         reference_dbs_counts.select(["ENTITY_STABLE_ID", "NAME"]), dbs_counts)
-    id_contribution_data =combine_dataframes_horizontal(reference_sbs_contribution.select(["ENTITY_STABLE_ID","NAME"]),id_contributions)
+    id_contribution_data =combine_dataframes_horizontal(reference_sbs_contribution.select(["ENTITY_STABLE_ID","NAME","DESCRIPTION","URL"]),id_contributions)
     id_counts_data =combine_dataframes_horizontal(
         reference_id_counts.select(["ENTITY_STABLE_ID", "NAME"]), id_counts)
 
-    sbs_contribution_data.write_csv('data_mutational_signatures_contribution_SBS',separator='\t')
-    dbs_contribution_data.write_csv('data_mutational_signatures_contribution_DBS', separator='\t')
-    id_contribution_data.write_csv('data_mutational_signatures_contribution_ID', separator='\t')
+    sbs_contribution_data.write_csv(os.path.join(os.getcwd(),'synthetic_data/data_mutational_signatures_contribution_SBS.txt'),separator='\t')
+    dbs_contribution_data.write_csv(os.path.join(os.getcwd(),'synthetic_data/data_mutational_signatures_contribution_DBS.txt'), separator='\t')
+    id_contribution_data.write_csv(os.path.join(os.getcwd(),'synthetic_data/data_mutational_signatures_contribution_ID.txt'), separator='\t')
 
-    sbs_counts_data.write_csv('data_mutational_signatures_counts_SBS',separator='\t')
-    dbs_counts_data.write_csv('data_mutational_signatures_counts_DBS',separator='\t')
-    id_counts_data.write_csv('data_mutational_signatures_counts_ID',separator='\t')
+    sbs_counts_data.write_csv(os.path.join(os.getcwd(),'synthetic_data/data_mutational_signatures_counts_SBS.txt'),separator='\t')
+    dbs_counts_data.write_csv(os.path.join(os.getcwd(),'synthetic_data/data_mutational_signatures_counts_DBS.txt'),separator='\t')
+    id_counts_data.write_csv(os.path.join(os.getcwd(),'synthetic_data/data_mutational_signatures_counts_ID.txt'),separator='\t')

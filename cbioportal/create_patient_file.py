@@ -2,7 +2,7 @@
 #### Python script to create clinical data on patient and sample level ###
 ##########################################################################
 # Author: T.J.M. Kuijpers
-
+import os
 # Columns in patient file:
 # Patient Identifier
 # Overall Survival
@@ -32,7 +32,7 @@ def create_numerical_list_patients(patient_size,min_value,max_value,number_of_de
 
 if __name__ == "__main__":
     patient_id=create_patient_identifier(100000)
-    os_options=['0:Living','1:Deceased','NA']
+    os_options=['0:LIVING','1:DECEASED','NA']
     dfs_options=['0:DiseaseFree','1:Recurred/Progressed','NA']
     os_status=create_categorical_list_patients(100000,os_options)
     dfs_status=create_categorical_list_patients(100000,dfs_options)
@@ -41,6 +41,18 @@ if __name__ == "__main__":
     age=create_numerical_list_patients(100000,10,100,0)
     sex=create_categorical_list_patients(100000,['Male','Female'])
     cancer_type=create_categorical_list_patients(100000,['Breast Cancer','Prostate Cancer','Pancreatic Cancer','Non-Small Cell Lung Cancer'])
-    data_frame = pl.DataFrame({'PATIENT_ID':patient_id,'AGE':age,'OS_STATUS':os_status,'OS_MONTHS':os_months,'DFS_STATUS':dfs_status,'DFS_MONTHS':dfs_months,'CANCER_TYPE':cancer_type})
+    data_frame = pl.DataFrame({'PATIENT_ID':patient_id,'AGE':age,'OS_STATUS':os_status,'OS_MONTHS':os_months,'DFS_STATUS':dfs_status,'DFS_MONTHS':dfs_months})
     data_frame.with_columns((~cs.string()).cast(pl.String))
-    data_frame.write_csv('data_clinical_patient.txt',separator='\t')
+    clinical_sample_order = pl.DataFrame(
+        {"col1": '#1', "col2": '2', "col3": '3', "col4": '4', "col15": '5', "col6": '5'})
+    clinical_sample_type=pl.DataFrame({"col1":'#STRING',"col2":'NUMBER',"col3":'STRING',"col4":'NUMBER',"col15":'STRING',"col6":'NUMBER'})
+    clinical_sample_comment=pl.DataFrame({"col1":'#Patient Id',"col2":'Age',"col3":'Survival status',"col4":'Survival in months',"col5":'Disease free status',"col6":'Disease free status months'})
+
+    output_file= "synthetic_data/data_clinical_patient.txt"
+    with open(output_file, mode="a") as f:
+        clinical_sample_comment.write_csv(f,separator='\t',include_header=False)
+        clinical_sample_comment.write_csv(f, separator='\t', include_header=False)
+        clinical_sample_type.write_csv(f,separator='\t',include_header=False)
+        clinical_sample_order.write_csv(f,separator='\t',include_header=False)
+        data_frame.write_csv(f, separator='\t',include_header=True)
+

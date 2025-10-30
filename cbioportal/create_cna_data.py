@@ -1,6 +1,6 @@
 import polars as pl
 import numpy as np
-import math
+import os
 import polars.selectors as cs
 import random
 
@@ -41,22 +41,27 @@ def create_cna_hg19(df,identifiers):
 
 
 if __name__ == "__main__":
-    sample_identifiers = get_patient_or_sample_identifiers('data_clinical_sample.txt', sep='\t', select_column='SAMPLE_ID')
+    path_to_file = os.path.join(os.getcwd(), 'synthetic_data/data_clinical_sample.txt')
+    sample_identifiers = get_patient_or_sample_identifiers(path_to_file, sep='\t', select_column='SAMPLE_ID',skip_lines=4)
     gene_identifiers = read_gene_json('gene_identifiers.json',"entrezGeneId","hugoGeneSymbol")
-    gene_identifiers_subset = gene_identifiers[1500:2500, :]
-    number_of_genes = gene_identifiers_subset.shape[0]
+    gene_identifiers_subset = gene_identifiers[1500:2000, :]
+    gene_identifiers_subset_filtered = gene_identifiers_subset.filter(pl.col("entrezGeneId") >= 0)
+    number_of_genes = gene_identifiers_subset_filtered.shape[0]
     # discrete (wide) file
     cna_df = create_expression_matrix(sample_identifiers, number_of_genes)
-    gene_cna_df = combine_dataframes_horizontal(pl.DataFrame(gene_identifiers_subset['hugoGeneSymbol']), cna_df)
-    gene_cna_df.write_csv('data_cna_discrete.txt', separator='\t')
+    gene_cna_df = combine_dataframes_horizontal(pl.DataFrame(gene_identifiers_subset_filtered['hugoGeneSymbol']), cna_df)
+    gene_cna_df = gene_cna_df.rename({"hugoGeneSymbol":'Hugo_Symbol'})
+    gene_cna_df.write_csv(os.path.join(os.getcwd(), 'synthetic_data/data_cna_discrete.txt'), separator='\t')
     # continuous log2 file
-    cna_log2_values = create_log2_matrix(sample_identifiers, number_of_genes)
-    # cna_log2_values.with_columns((~cs.string()).replace([float("inf"), -float("inf")], 'NaN'))
-    gene_cna_log2_df = combine_dataframes_horizontal(pl.DataFrame(gene_identifiers_subset['hugoGeneSymbol']), cna_log2_values)
-    gene_cna_log2_df.write_csv('data_cna_log2.txt', separator='\t')
+    #cna_log2_values = create_log2_matrix(sample_identifiers, number_of_genes)
+    #cna_log2_values.with_columns((~cs.string()).replace([float("inf"), -float("inf")], 'NaN'))
+    #gene_cna_log2_df = combine_dataframes_horizontal(pl.DataFrame(gene_identifiers_subset_filtered['hugoGeneSymbol']), cna_log2_values)
+    #gene_cna_log2_df=gene_cna_log2_df.rename({"hugoGeneSymbol":'Hugo_Symbol'})
+    #gene_cna_log2_df.write_csv(os.path.join(os.getcwd(), 'synthetic_data/data_cna_log2.txt'), separator='\t')
     # segmented file
-    cna_hg19_data = pl.read_csv('~/createSyntheticData/cbioportal/example_data/data_cna_hg19_coad_silu_2022.seg',separator='\t',infer_schema_length=10000)
-    cna_hg19 = create_cna_hg19(cna_hg19_data,sample_identifiers)
-    cna_hg19.write_csv('data_cna_hg19.seg', separator='\t')
+    #cna_hg19_data = pl.read_csv(os.path.join(os.getcwd(),'example_data/data_cna_hg19_coad_silu_2022.seg'),separator='\t',infer_schema_length=10000)
+    #cna_hg19_data_filtered = cna_hg19_data.filter((pl.col("chrom") !="X") & (pl.col("chrom") != "Y"))
+    #cna_hg19 = create_cna_hg19(cna_hg19_data_filtered,sample_identifiers)
+    #cna_hg19.write_csv(os.path.join(os.getcwd(), 'synthetic_data/data_cna_hg19.seg'), separator='\t')
 
 
