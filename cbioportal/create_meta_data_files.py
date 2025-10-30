@@ -1,5 +1,10 @@
+cancer_study_id = "fake_clickhouse_100k"
+study_name = "Dataset 100.000 samples"
+study_description = "Fake dataset to test endpoints for clickhouse"
+type_of_cancer = "brca-test-study"
+from utils import create_meta_data
 # Create meta data
-metadata_cna_discrete = {
+meta_cna_discrete = {
     "cancer_study_identifier": f"{cancer_study_id}",
      "genetic_alteration_type": "COPY_NUMBER_ALTERATION",
      "datatype": "DISCRETE_LONG",
@@ -55,7 +60,6 @@ meta_gsva_pvalues = {
 "geneset_def_version": "msigdb_7.5.1"
 
 }
-
 meta_clinical_patients = {
 "cancer_study_identifier": f"{cancer_study_id}",
 "genetic_alteration_type": "CLINICAL",
@@ -79,7 +83,6 @@ meta_structural_variants = {
 "profile_name": "Targeted Fusion Assay data (Fake data)",
 "profile_description": "Targeted Fusion Assay data created by The Hyve",
 "show_profile_in_analysis_tab": "true",
-"gene_panel": f"{gene_panel}",
 "namespaces": "StructVarNs,StructVarNs2"
 }
 
@@ -106,3 +109,140 @@ meta_study = {
 "tags_file": "study_tags.yml",
 "reference_genome": "hg19"
 }
+
+meta_treatment_ic50 ={
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "GENERIC_ASSAY",
+"generic_assay_type": "TREATMENT_RESPONSE",
+"datatype": "LIMIT-VALUE",
+"stable_id": "treatment_ic50",
+"profile_name": "IC50 values of compounds on cellular phenotype readout",
+"profile_description": "IC50 (compound concentration resulting in half maximal inhibition) of compounds on cellular phenotype readout of cultured mutant cell lines.",
+"data_filename": "data_treatment_ic50.txt",
+"show_profile_in_analysis_tab": "true",
+"pivot_threshold_value": "0.1",
+"value_sort_order": "ASC"
+}
+
+meta_expression_continuous = {
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "MRNA_EXPRESSION",
+"datatype": "CONTINUOUS",
+"stable_id": "rna_seq_v2_mrna",
+"profile_description": "Fake RNA data",
+"show_profile_in_analysis_tab": "false",
+"profile_name": "mRNA expression",
+"data_filename": "data_expression_continuous.txt"
+}
+
+meta_expression_median = {
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "MRNA_EXPRESSION",
+"datatype": "CONTINUOUS",
+"stable_id": "mrna",
+"profile_description": "Expression levels (Agilent microarray).",
+"show_profile_in_analysis_tab": "false",
+"profile_name": "mRNA expression (microarray)",
+"data_filename": "data_expression_median.txt"
+}
+
+meta_mutational_signatures_sbs_counts ={
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "GENERIC_ASSAY",
+"generic_assay_type": "MUTATIONAL_SIGNATURE",
+"datatype": "LIMIT-VALUE",
+"stable_id": "mutational_signature_sbs",
+"profile_name": "generic assay test profile",
+"profile_description": "test profile for generic assay",
+"data_filename": "data_mutational_signatures_counts_SBS.txt",
+"show_profile_in_analysis_tab": "true"
+}
+
+meta_mutational_signatures_dbs_counts ={
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "GENERIC_ASSAY",
+"generic_assay_type": "MUTATIONAL_SIGNATURE",
+"datatype": "LIMIT-VALUE",
+"stable_id": "mutational_signature_dbs",
+"profile_name": "generic assay test profile",
+"profile_description": "test profile for generic assay",
+"data_filename": "data_mutational_signatures_counts_DBS.txt",
+"show_profile_in_analysis_tab": "true"
+}
+
+meta_mutational_signatures_id_counts ={
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "GENERIC_ASSAY",
+"generic_assay_type": "MUTATIONAL_SIGNATURE",
+"datatype": "LIMIT-VALUE",
+"stable_id": "mutational_signature_id",
+"profile_name": "generic assay test profile",
+"profile_description": "test profile for generic assay",
+"data_filename": "data_mutational_signatures_counts_ID.txt",
+"show_profile_in_analysis_tab": "true"
+}
+
+meta_mutational_signatures_sbs_contribution = {
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "GENERIC_ASSAY",
+"generic_assay_type": "MUTATIONAL_SIGNATURE",
+"datatype": "LIMIT-VALUE",
+"stable_id": "mutational_signatures_contribution_SBS",
+"profile_name": "Mutational signatures contribution SBS",
+"profile_description": "Mutational signature contribution",
+"data_filename": "data_mutational_signatures_contribution_SBS.txt",
+"show_profile_in_analysis_tab": "true",
+"generic_entity_meta_properties": "NAME,DESCRIPTION,URL",
+"value_sort_order": "DESC",
+}
+
+meta_mutational_signatures_dbs_contribution = {
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "GENERIC_ASSAY",
+"generic_assay_type": "MUTATIONAL_SIGNATURE",
+"datatype": "LIMIT-VALUE",
+"stable_id": "mutational_signatures_contribution_DBS",
+"profile_name": "Mutational signatures contribution DBS",
+"profile_description": "Mutational signature contribution",
+"data_filename": "data_mutational_signatures_contribution_DBS.txt",
+"show_profile_in_analysis_tab": "true",
+"generic_entity_meta_properties": "NAME,DESCRIPTION,URL",
+"value_sort_order": "DESC",
+}
+
+
+meta_mutational_signatures_id_contribution = {
+"cancer_study_identifier": f"{cancer_study_id}",
+"genetic_alteration_type": "GENERIC_ASSAY",
+"generic_assay_type": "MUTATIONAL_SIGNATURE",
+"datatype": "LIMIT-VALUE",
+"stable_id": "mutational_signatures_contribution_ID",
+"profile_name": "Mutational signatures contribution ID",
+"profile_description": "Mutational signature contribution",
+"data_filename": "data_mutational_signatures_contribution_ID.txt",
+"show_profile_in_analysis_tab": "true",
+"generic_entity_meta_properties": "NAME,DESCRIPTION,URL",
+"value_sort_order": "DESC",
+}
+
+
+
+if __name__ == "__main__":
+   create_meta_data(meta_cna_discrete, 'syntethic_data/meta_cna_discrete.txt')
+   create_meta_data(meta_cna_log2, 'syntethic_data/meta_cna_log2.txt')
+   create_meta_data(meta_cna_hg19,'syntethic_data/meta_cna_hg19_seg.txt')
+   create_meta_data(meta_gsva_scores,'syntethic_data/meta_gsva_scores.txt')
+   create_meta_data(meta_gsva_pvalues,'syntethic_data/meta_gsva_pvalues.txt')
+   create_meta_data(meta_clinical_patients,'syntethic_data/meta_clinical_patients.txt')
+   create_meta_data(meta_clinical_samples,'syntethic_data/meta_clinical_samples.txt')
+   create_meta_data(meta_structural_variants,'syntethic_data/meta_structural_variants.txt')
+   create_meta_data(meta_methylation_hm27,'syntethic_data/meta_methylation_hm27.txt')
+   create_meta_data(meta_study,'syntethic_data/meta_study.txt')
+   create_meta_data(meta_treatment_ic50,'syntethic_data/meta_reatment_ic50.txt')
+   create_meta_data(meta_expression_continuous,'syntethic_data/meta_expression_continuous.txt')
+   create_meta_data(meta_mutational_signatures_sbs_counts,'syntethic_data/meta_mutational_signatures_counts_SBS.txt')
+   create_meta_data(meta_mutational_signatures_dbs_counts, 'syntethic_data/meta_mutational_signatures_counts_DBS.txt')
+   create_meta_data(meta_mutational_signatures_id_counts, 'syntethic_data/meta_mutational_signatures_counts_ID.txt')
+   create_meta_data(meta_mutational_signatures_sbs_contribution, 'syntethic_data/meta_mutational_signatures_contribution_SBS.txt')
+   create_meta_data(meta_mutational_signatures_dbs_contribution, 'syntethic_data/meta_mutational_signatures_contribution_DBS.txt')
+   create_meta_data(meta_mutational_signatures_id_contribution, 'syntethic_data/meta_mutational_signatures_contribution_ID.txt')

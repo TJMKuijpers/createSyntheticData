@@ -54,14 +54,14 @@ def add_custom_namespace_cols(df):
 def create_expression_matrix(column_list,column_name,min_value,max_value,number_of_entries,profile):
     names = column_list[column_name].to_list()
     data = {}
-    if profile.upper() == 'EXPR':
+    if profile.upper() == 'EXPR' or profile.upper() == 'COUNT':
         for name in names:
             data[name] = np.random.randint(
                 low=min_value,
                 high=max_value,
                 size=number_of_entries
             )
-    elif profile.upper() == 'RPPA' or profile.upper() == 'PVALUE'  or profile.upper() == 'SCORE':
+    elif profile.upper() == 'RPPA' or profile.upper() == 'PVALUE'  or profile.upper() == 'SCORE' or profile.upper() == 'CONTRIBUTION':
         for name in names:
             data[name] = np.random.uniform(
                 low=min_value,
@@ -69,9 +69,21 @@ def create_expression_matrix(column_list,column_name,min_value,max_value,number_
                 size=number_of_entries
             )
     else:
-        raise ValueError(F"Profile '{profile}' is not implemented yet, pick EXPR or RPPA, or for GSVA pick PVALUE or SCORE")
+        raise ValueError(F"Profile '{profile}' is not implemented yet")
     df = pl.DataFrame(data)
     return df
+
+
+def create_categorical_matrix(column_list,column_name,categories,number_of_entries):
+    names = column_list[column_name].to_list()
+    data = {}
+    for name in names:
+        data[name] = np.random.choice(
+             a=categories,
+             size=number_of_entries)
+    df = pl.DataFrame(data)
+    return df
+
 
 def create_meta_data(metadata_dict,filename):
     file_content = []

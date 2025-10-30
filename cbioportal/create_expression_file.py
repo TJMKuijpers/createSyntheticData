@@ -15,4 +15,4 @@ if __name__ == "__main__":
     gene_expression_median = create_expression_matrix(patient_identifiers,'SAMPLE_ID',2,15,number_of_genes,'EXPR')
     gene_expression_df = combine_dataframes_horizontal(gene_identifiers_subset,gene_expression_median)
     print(gene_expression_df.head())
-    gene_expression_df.write_csv('data_gene_expression.txt',separator='\t')
+    gene_expression_df.write_csv('data_expression_continuous.txt',separator='\t')
