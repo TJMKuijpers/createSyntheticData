@@ -54,7 +54,7 @@ def add_custom_namespace_cols(df):
 def create_expression_matrix(column_list,column_name,min_value,max_value,number_of_entries,profile):
     names = column_list[column_name].to_list()
     data = {}
-    if profile.upper() == 'EXPR' or profile.upper() == 'COUNT':
+    if profile.upper() == 'EXPR' or profile.upper() == 'COUNT' or profile.upper() == 'TREATMENT':
         for name in names:
             data[name] = np.random.randint(
                 low=min_value,

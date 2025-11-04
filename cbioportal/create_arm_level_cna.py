@@ -13,4 +13,4 @@ if __name__ == "__main__":
     sample_idenifiers = get_patient_or_sample_identifiers(os.path.join(os.getcwd(), 'synthetic_data/data_clinical_samples.txt'),'\t','SAMPLE_ID',2)
     categories = ['Loss', 'Gain', 'Na', 'Unchanged']
     data=create_cna_armlevel(example_data,sample_idenifiers,categories)
-    data.write_csv(os.path.join(os.getcwd(), '/synthetic_data//data_armlevel_cna.txt'),separator='\t')
+    data.write_csv(os.path.join(os.getcwd(), 'synthetic_data/data_armlevel_cna.txt'),separator='\t')
