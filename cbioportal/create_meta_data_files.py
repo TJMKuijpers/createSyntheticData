@@ -226,27 +226,41 @@ meta_mutational_signatures_id_contribution = {
 "value_sort_order": "DESC",
 }
 
+meta_mutations_extended = {
+"cancer_study_identifier": f"{cancer_study_id}",
+'genetic_alteration_type': 'MUTATION_EXTENDED',
+'datatype': 'MAF',
+'stable_id': 'mutations',
+'show_profile_in_analysis_tab': 'true',
+'profile_description': 'Mutation data from whole exome sequencing.',
+'profile_name': 'Mutations',
+'data_filename': 'data_mutations.txt',
+'swissprot_identifier': 'name',
+'namespaces': 'CUSTOM'
+}
+
 
 
 if __name__ == "__main__":
-   create_meta_data(meta_cna_discrete, 'synthetic_data/meta_cna_discrete.txt')
-   create_meta_data(meta_cna_log2, 'synthetic_data/meta_cna_log2.txt')
-   create_meta_data(meta_cna_hg19, 'synthetic_data/meta_cna_hg19_seg.txt')
-   create_meta_data(meta_gsva_scores, 'synthetic_data/meta_gsva_scores.txt')
-   create_meta_data(meta_gsva_pvalues, 'synthetic_data/meta_gsva_pvalues.txt')
-   create_meta_data(meta_clinical_patients, 'synthetic_data/meta_clinical_patients.txt')
-   create_meta_data(meta_clinical_samples, 'synthetic_data/meta_clinical_samples.txt')
-   create_meta_data(meta_structural_variants, 'synthetic_data/meta_structural_variants.txt')
-   create_meta_data(meta_methylation_hm27, 'synthetic_data/meta_methylation_hm27.txt')
-   create_meta_data(meta_study, 'synthetic_data/meta_study.txt')
-   create_meta_data(meta_treatment_ic50, 'synthetic_data/meta_treatment_ic50.txt')
-   create_meta_data(meta_expression_continuous, 'synthetic_data/meta_expression_continuous.txt')
-   create_meta_data(meta_mutational_signatures_sbs_counts, 'synthetic_data/meta_mutational_signatures_counts_SBS.txt')
-   create_meta_data(meta_mutational_signatures_dbs_counts, 'synthetic_data/meta_mutational_signatures_counts_DBS.txt')
-   create_meta_data(meta_mutational_signatures_id_counts, 'synthetic_data/meta_mutational_signatures_counts_ID.txt')
-   create_meta_data(meta_mutational_signatures_sbs_contribution,
-                    'synthetic_data/meta_mutational_signatures_contribution_SBS.txt')
-   create_meta_data(meta_mutational_signatures_dbs_contribution,
-                    'synthetic_data/meta_mutational_signatures_contribution_DBS.txt')
-   create_meta_data(meta_mutational_signatures_id_contribution,
-                    'synthetic_data/meta_mutational_signatures_contribution_ID.txt')
+   #create_meta_data(meta_cna_discrete, 'synthetic_data/meta_cna_discrete.txt')
+   #create_meta_data(meta_cna_log2, 'synthetic_data/meta_cna_log2.txt')
+   #create_meta_data(meta_cna_hg19, 'synthetic_data/meta_cna_hg19_seg.txt')
+   #create_meta_data(meta_gsva_scores, 'synthetic_data/meta_gsva_scores.txt')
+   #create_meta_data(meta_gsva_pvalues, 'synthetic_data/meta_gsva_pvalues.txt')
+   #create_meta_data(meta_clinical_patients, 'synthetic_data/meta_clinical_patients.txt')
+   #create_meta_data(meta_clinical_samples, 'synthetic_data/meta_clinical_samples.txt')
+   #create_meta_data(meta_structural_variants, 'synthetic_data/meta_structural_variants.txt')
+   #create_meta_data(meta_methylation_hm27, 'synthetic_data/meta_methylation_hm27.txt')
+   #create_meta_data(meta_study, 'synthetic_data/meta_study.txt')
+   #create_meta_data(meta_treatment_ic50, 'synthetic_data/meta_treatment_ic50.txt')
+   #create_meta_data(meta_expression_continuous, 'synthetic_data/meta_expression_continuous.txt')
+   #create_meta_data(meta_mutational_signatures_sbs_counts, 'synthetic_data/meta_mutational_signatures_counts_SBS.txt')
+   #create_meta_data(meta_mutational_signatures_dbs_counts, 'synthetic_data/meta_mutational_signatures_counts_DBS.txt')
+   #create_meta_data(meta_mutational_signatures_id_counts, 'synthetic_data/meta_mutational_signatures_counts_ID.txt')
+   #create_meta_data(meta_mutational_signatures_sbs_contribution,
+   #                 'synthetic_data/meta_mutational_signatures_contribution_SBS.txt')
+   #create_meta_data(meta_mutational_signatures_dbs_contribution,
+   #                 'synthetic_data/meta_mutational_signatures_contribution_DBS.txt')
+   #create_meta_data(meta_mutational_signatures_id_contribution,
+   #                 'synthetic_data/meta_mutational_signatures_contribution_ID.txt')
+   create_meta_data(meta_mutations_extended, 'synthetic_data/meta_mutations.txt')

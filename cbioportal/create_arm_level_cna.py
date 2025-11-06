@@ -10,7 +10,7 @@ def create_cna_armlevel(reference_data,samples,categories):
 
 if __name__ == "__main__":
     example_data = pl.read_csv(os.path.join(os.getcwd(), "example_data/data_armlevel_cna.txt"), separator='\t').select(['ENTITY_STABLE_ID','NAME','DESCRIPTION'])
-    sample_idenifiers = get_patient_or_sample_identifiers(os.path.join(os.getcwd(), 'synthetic_data/data_clinical_samples.txt'),'\t','SAMPLE_ID',2)
+    sample_idenifiers = get_patient_or_sample_identifiers(os.path.join(os.getcwd(), 'synthetic_data/data_clinical_sample.txt'),'\t','SAMPLE_ID',2)
     categories = ['Loss', 'Gain', 'Na', 'Unchanged']
     data=create_cna_armlevel(example_data,sample_idenifiers,categories)
     data.write_csv(os.path.join(os.getcwd(), 'synthetic_data/data_armlevel_cna.txt'),separator='\t')
